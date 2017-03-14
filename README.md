@@ -70,7 +70,7 @@ Response from HTTP transaction:
       port: '8888', 
       path: null 
     },
-    source: 'socket'
+    source: 'tcp'
   }
 ]
 ```
