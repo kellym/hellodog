@@ -9,6 +9,7 @@ const record = require('socket-logger').record;
 // basic recording of process.stdout
 record((done) => {
   console.log('Hello, world!');
+  console.log('Goodbye, world!');
   done();
 }, (log) => {
   // returns an array of sockets and their messages
@@ -20,7 +21,8 @@ Response from `console.log`:
 [
   { 
     events: [ 
-      { request: 'Hello, world!\n', created_at: 1489460314753.3242 } 
+      { request: 'Hello, world!\n', created_at: 1489460314753.3242 },
+      { request: 'Goodbye, world!\n', created_at: 1489460314753.4758 }
     ],
     source: 'stdout'
   }
