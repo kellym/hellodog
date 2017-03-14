@@ -1,0 +1,19 @@
+{
+  "name": "socket-logger",
+  "version": "0.0.1",
+  "description": "Log transactions that occur over sockets for a specific period of time",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test/*.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async-hook": "^1.7.1",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "express": "^4.15.2",
+    "tap": "^10.3.0"
+  }
+}
