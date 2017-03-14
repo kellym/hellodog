@@ -67,8 +67,7 @@ Response from HTTP transaction:
     ],
     connection: { 
       host: 'localhost', 
-      port: '8888', 
-      path: null 
+      port: '8888'
     },
     source: 'tcp'
   }
