@@ -20,7 +20,7 @@ Response from `console.log`:
 [
   { 
     events: [ 
-      { request: 'Hello, world!\n', created_at: 1489460314753 } 
+      { request: 'Hello, world!\n', created_at: 1489460314753.3242 } 
     ],
     source: 'stdout'
   }
@@ -58,11 +58,11 @@ Response from HTTP transaction:
     events: [ 
       { 
         request: 'GET / HTTP/1.1\r\nHost: localhost:8888\r\nConnection: close\r\n\r\n',
-        created_at: 1489460545620 
+        created_at: 1489460545620.1575 
       },
       { 
         response: 'HTTP/1.1 200 OK\r\nX-Powered-By: Express\r\nContent-length: 13\r\nDate: Tue, 14 Mar 2017 03:02:25 GMT\r\nConnection: close\r\n\r\nHello, world!',
-        created_at: 1489460545628 
+        created_at: 1489460545628.0654 
       } 
     ],
     connection: { 
