@@ -15,7 +15,7 @@ tap.test('should record http socket requests', (t) => {
       http.get('http://localhost:8888', done);
     }, (log) => {
       t.ok(log[0].events);
-      t.equal(log[0].source, 'socket');
+      t.equal(log[0].source, 'tcp');
       server.close();
       t.end();
     });
