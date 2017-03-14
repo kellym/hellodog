@@ -14,8 +14,12 @@ tap.test('should record http socket requests', (t) => {
     record((done) => {
       http.get('http://localhost:8888', done);
     }, (log) => {
-      t.ok(log[0].events);
-      t.equal(log[0].source, 'tcp');
+      const s = log[0];
+      t.ok(s.events);
+      t.equal(s.events.length, 2);
+      t.equal(s.events.filter(e => e.request).length, 1);
+      t.equal(s.events.filter(e => e.response).length, 1);
+      t.equal(s.source, 'tcp');
       server.close();
       t.end();
     });
@@ -27,8 +31,11 @@ tap.test('should record console.log', (t) => {
     console.log('Hello, world!');
     done();
   }, (log) => {
-    t.ok(log[0].events);
-    t.equal(log[0].source, 'stdout');
+    const s = log[0];
+    t.ok(s.events);
+    t.equal(s.events.length, 1);
+    t.ok(s.events[0].request);
+    t.equal(s.source, 'stdout');
     t.end();
   });
 });
@@ -38,8 +45,11 @@ tap.test('should record console.error', (t) => {
     console.error('Hello, world!');
     done();
   }, (log) => {
-    t.ok(log[0].events);
-    t.equal(log[0].source, 'stderr');
+    const s = log[0];
+    t.ok(s.events);
+    t.equal(s.events.length, 1);
+    t.ok(s.events[0].request);
+    t.equal(s.source, 'stderr');
     t.end();
   });
 });
