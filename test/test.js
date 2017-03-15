@@ -13,7 +13,7 @@ tap.test('should record http socket requests', (t) => {
   const server = app.listen(8888, () => {
     record((done) => {
       http.get('http://localhost:8888', done);
-    }, (log) => {
+    }, (res, log) => {
       const s = log[0];
       t.ok(s.events);
       t.equal(s.events.length, 2);
@@ -50,6 +50,20 @@ tap.test('should record console.error', (t) => {
     t.equal(s.events.length, 1);
     t.ok(s.events[0].request);
     t.equal(s.source, 'stderr');
+    t.end();
+  });
+});
+
+
+tap.test('should pass through done arguments to callback', (t) => {
+  record((done) => {
+    console.log('Hello, world!');
+    done('foo', 'bar', 'baz');
+  }, (foo, bar, baz, log) => {
+    t.equal(foo, 'foo');
+    t.equal(bar, 'bar');
+    t.equal(baz, 'baz');
+    t.equal(log[0].source, 'stdout');
     t.end();
   });
 });
