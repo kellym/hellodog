@@ -1,6 +1,8 @@
 # socket-logger
 Log all communication over sockets.
 
+[![Build Status](https://travis-ci.org/kellym/socket-logger.svg?branch=master)](https://travis-ci.org/kellym/socket-logger)
+
 #### Basic usage
 
 ```javascript
@@ -19,8 +21,8 @@ record((done) => {
 Response from `console.log`:
 ```javascript
 [
-  { 
-    events: [ 
+  {
+    events: [
       { request: 'Hello, world!\n', created_at: 1489460314753.3242 },
       { request: 'Goodbye, world!\n', created_at: 1489460314753.4758 }
     ],
@@ -39,7 +41,7 @@ const express = require('express');
 // recording of an HTTP transaction
 const app = express();
 app.get('/', (req, res) => {
-  res.header('Content-length', 13);   
+  res.header('Content-length', 13);
   res.write('Hello, world!');
   res.end();
 });
@@ -57,18 +59,18 @@ Response from HTTP transaction:
 ```javascript
 [
   {
-    events: [ 
-      { 
+    events: [
+      {
         request: 'GET / HTTP/1.1\r\nHost: localhost:8888\r\nConnection: close\r\n\r\n',
-        created_at: 1489460545620.1575 
+        created_at: 1489460545620.1575
       },
-      { 
+      {
         response: 'HTTP/1.1 200 OK\r\nX-Powered-By: Express\r\nContent-length: 13\r\nDate: Tue, 14 Mar 2017 03:02:25 GMT\r\nConnection: close\r\n\r\nHello, world!',
-        created_at: 1489460545628.0654 
-      } 
+        created_at: 1489460545628.0654
+      }
     ],
-    connection: { 
-      host: 'localhost', 
+    connection: {
+      host: 'localhost',
       port: '8888'
     },
     source: 'tcp'
