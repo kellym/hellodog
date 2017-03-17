@@ -1,11 +1,20 @@
 const SocketLogger = require('./lib/logger');
 
-let logger;
+const singleton = function() {
+  if (!this.logger) {
+    this.logger = new SocketLogger();
+  }
+  return this.logger;
+};
 
-module.exports = {
+const logger = module.exports = {
   get record() {
-    if(!logger)
-      logger = new SocketLogger();
-    return logger.record;
+    return singleton().record;
+  },
+  patch() {
+    singleton().patch();
+  },
+  unpatch() {
+    singleton().unpatch();
   }
 };

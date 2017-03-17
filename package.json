@@ -9,10 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async-hook": "^1.7.1"
+    "async-hook": "^1.7.1",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "express": "^4.15.2",
+    "pem": "^1.9.4",
     "tap": "^10.3.0"
   }
 }

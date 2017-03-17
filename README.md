@@ -3,6 +3,21 @@ Log all communication over sockets.
 
 [![Build Status](https://travis-ci.org/kellym/socket-logger.svg?branch=master)](https://travis-ci.org/kellym/socket-logger)
 
+#### Patching Socket
+When using SocketLogger, net.Socket needs to be patched before anything else
+extends or creates a Socket in order for that to be logged. Patching can be
+done by either calling `patch()` or by assigning `record`:
+
+```javascript
+require('socket-logger').patch();
+
+// automatically patches when retrieving the record method:
+const record = require('socket-logger').record;
+
+// net Socket can also be unpatched:
+require('socket-logger').unpatch();
+```
+
 #### Basic usage
 
 ```javascript
