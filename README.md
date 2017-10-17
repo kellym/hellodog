@@ -1,27 +1,27 @@
-# socket-logger
-Log all communication over sockets.
+# socket-recorder
+Record and log all communication over sockets.
 
-[![Build Status](https://travis-ci.org/kellym/socket-logger.svg?branch=master)](https://travis-ci.org/kellym/socket-logger)
+[![Build Status](https://travis-ci.org/kellym/socket-recorder.svg?branch=master)](https://travis-ci.org/kellym/socket-recorder)
 
 #### Patching Socket
-When using SocketLogger, net.Socket needs to be patched before anything else
-extends or creates a Socket in order for that to be logged. Patching can be
+When using SocketRecorder, net.Socket needs to be patched before anything else
+extends or creates a Socket in order for that to be recorded. Patching can be
 done by either calling `patch()` or by assigning `record`:
 
 ```javascript
-require('socket-logger').patch();
+require('socket-recorder').patch();
 
 // automatically patches when retrieving the record method:
-const record = require('socket-logger').record;
+const { record } = require('socket-recorder');
 
 // net Socket can also be unpatched:
-require('socket-logger').unpatch();
+require('socket-recorder').unpatch();
 ```
 
 #### Basic usage
 
 ```javascript
-const record = require('socket-logger').record;
+const record = require('socket-recorder').record;
 
 // basic recording of process.stdout
 record((done) => {
@@ -30,6 +30,14 @@ record((done) => {
   done();
 }, (log) => {
   // returns an array of sockets and their messages
+});
+
+// or use it as a Promise
+record((done) => {
+  console.log('I promise!');
+  done();
+}).then((log) => {
+
 });
 ```
 
@@ -50,7 +58,7 @@ Response from `console.log`:
 #### More advanced responses
 
 ```javascript
-const record = require('socket-logger').record;
+const record = require('socket-recorder').record;
 const express = require('express');
 
 // recording of an HTTP transaction
