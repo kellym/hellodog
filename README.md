@@ -33,9 +33,9 @@ record((done) => {
 });
 
 // or use it as a Promise
-record((done) => {
+record((resolve, reject) => {
   console.log('I promise!');
-  done();
+  resolve();
 }).then((log) => {
 
 });
