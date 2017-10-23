@@ -1,6 +1,6 @@
 {
   "name": "socket-recorder",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Record and log all socket transactions that occur for a specific period of time",
   "main": "index.js",
   "scripts": {
