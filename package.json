@@ -1,12 +1,12 @@
 {
-  "name": "socket-logger",
+  "name": "socket-recorder",
   "version": "0.0.1",
-  "description": "Log transactions that occur over sockets for a specific period of time",
+  "description": "Record and log all socket transactions that occur for a specific period of time",
   "main": "index.js",
   "scripts": {
     "test": "tap test/*.js"
   },
-  "author": "",
+  "author": "Kelly Martin <kellymartinv@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "async-hook": "^1.7.1",
