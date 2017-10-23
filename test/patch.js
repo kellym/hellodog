@@ -1,7 +1,7 @@
-const tap = require('tap');
-const net = require('net');
-const originalSocket = net.Socket;
-const socketRecorder = require('../index');
+const tap            = require('tap'),
+      net            = require('net'),
+      originalSocket = net.Socket,
+      socketRecorder = require('../index');
 
 tap.test('should not patch until patch() is called', (t) => {
   t.equal(net.Socket, originalSocket);

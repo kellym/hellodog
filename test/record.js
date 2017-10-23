@@ -1,9 +1,9 @@
-const tap = require('tap');
-const record = require('../index').record;
-const express = require('express');
-const http = require('http');
-const https = require('https');
-const pem = require('pem');
+const tap        = require('tap'),
+      { record } = require('../index'),
+      express    = require('express'),
+      http       = require('http'),
+      https      = require('https'),
+      pem        = require('pem');
 
 // we're using a self-signed cert for our tests
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
