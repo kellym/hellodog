@@ -21,7 +21,7 @@ require('socket-recorder').unpatch();
 #### Basic usage
 
 ```javascript
-const record = require('socket-recorder').record;
+const { record } = require('socket-recorder');
 
 // basic recording of process.stdout
 record((done) => {
@@ -58,7 +58,7 @@ Response from `console.log`:
 #### More advanced responses
 
 ```javascript
-const record = require('socket-recorder').record;
+const { record } = require('socket-recorder');
 const express = require('express');
 
 // recording of an HTTP transaction
