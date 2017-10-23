@@ -6,11 +6,19 @@
   "scripts": {
     "test": "tap test/*.js"
   },
+ "homepage": "https://github.com/kellym/socket-recorder",
   "author": "Kelly Martin <kellymartinv@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "async-hook": "^1.7.1",
     "lodash": "^4.17.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kellym/socket-recorder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kellym/socket-recorder/issues"
   },
   "devDependencies": {
     "express": "^4.15.2",
