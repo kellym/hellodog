@@ -95,12 +95,18 @@ tap.test('should pass through done arguments to callback', (t) => {
   });
 });
 
-tap.test('should run as a promise', (t) => {
-  record((resolve) => {
+tap.test('should run as a promise and respect then/catch syntax', (t) => {
+  record((resolve, reject) => {
     console.log('Hello, world!');
     resolve();
   }).then((log) => {
     t.equal(log[0].source, 'stdout');
-    t.end();
+    record((resolve, reject) => {
+      console.log('Goodbye!');
+      reject();
+    }).catch((log) => {
+      t.equal(log[0].source, 'stdout');
+      t.end();
+    });
   });
 });
