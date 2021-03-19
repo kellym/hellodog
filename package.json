@@ -4,7 +4,7 @@
   "description": "Record and log all socket transactions that occur for a specific period of time",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "NODE_NO_WARNINGS=1 tap test/*.js"
   },
   "homepage": "https://github.com/kellym/socket-recorder",
   "author": "Kelly Martin <kellymartinv@gmail.com>",

@@ -5,7 +5,9 @@ const tap        = require('tap'),
       https      = require('https'),
       pem        = require('pem');
 
-// we're using a self-signed cert for our tests
+// we're using a self-signed cert for our tests.
+// important: must run tests with environment variable
+// NODE_NODE_WARNINGS = 1
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
 const app = () => {
@@ -25,9 +27,9 @@ tap.test('should record http socket requests and responses', (t) => {
     }, (res, log) => {
       const s = log[0];
       t.ok(s.events);
-      t.equal(s.events.length, 2);
       t.equal(s.events.filter(e => e.request).length, 1);
       t.equal(s.events.filter(e => e.response).length, 1);
+      t.equal(s.events.length, 2);
       t.equal(s.source, 'tcp');
       server.close();
       t.end();
@@ -43,9 +45,9 @@ tap.test('should record https socket requests and responses', (t) => {
     }, (res, log) => {
       const s = log[0];
       t.ok(s.events);
-      t.equal(s.events.length, 2);
       t.equal(s.events.filter(e => e.request).length, 1);
       t.equal(s.events.filter(e => e.response).length, 1);
+      t.equal(s.events.length, 2);
       t.equal(s.source, 'tcp');
       server.close();
       t.end();
