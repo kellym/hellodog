@@ -19,9 +19,9 @@ const app = () => {
 };
 
 tap.test('should record http socket requests and responses', (t) => {
-  const server = app().listen(8888, () => {
+  const server = app().listen(8888, '127.0.0.1', () => {
     record((done) => {
-      http.get('http://localhost:8888', done);
+      http.get(`http://127.0.0.1:8888`, done);
     }, (res, log) => {
       const s = log[0];
       t.ok(s.events);
@@ -37,9 +37,9 @@ tap.test('should record http socket requests and responses', (t) => {
 
 tap.test('should record https socket requests and responses', (t) => {
   pem.createCertificate({days:1, selfSigned:true}, (err, keys) => {
-    const server = https.createServer({ key: keys.serviceKey, cert: keys.certificate }, app()).listen(8888);
+    const server = https.createServer({ key: keys.serviceKey, cert: keys.certificate }, app()).listen(8888, '127.0.0.1');
     record((done) => {
-      https.get('https://localhost:8888', done);
+      https.get('https://127.0.0.1:8888', done);
     }, (res, log) => {
       const s = log[0];
       t.ok(s.events);
