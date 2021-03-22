@@ -1,5 +1,19 @@
 # Hello, Dog!
-Record and log all communication over sockets.
+There are libraries out there that record HTTP transactions. 
+There's [yakbak](https://github.com/flickr/yakbak) and
+[sepia](https://github.com/LinkedInAttic/sepia), to name a couple.
+
+This library is different. This library records and logs _all_ communication over sockets, 
+not just sockets used for HTTP transactions.
+
+What happens over sockets, you ask? Let's name a few:
+
+- HTTP transactions
+- HTTPS transactions
+- FTP transactions
+- WebSockets
+- `stdin`, `stdout`, and `stderr` (this means you can track `console.log`!)
+- and many more!
 
 ![Build Status](https://github.com/kellym/hellodog/actions/workflows/test.yml/badge.svg)
 
