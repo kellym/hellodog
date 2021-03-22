@@ -1,5 +1,5 @@
 const tap        = require('tap'),
-      { track } = require('../index'),
+      { track }  = require('../index'),
       express    = require('express'),
       http       = require('http'),
       https      = require('https'),
