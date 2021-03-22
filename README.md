@@ -1,7 +1,7 @@
 # Hello, Dog!
 Record and log all communication over sockets.
 
-[![Build Status](https://travis-ci.org/kellym/hellodog.svg?branch=master)](https://travis-ci.org/kellym/hellodog)
+![Build Status](https://github.com/kellym/hellodog/actions/workflows/test.yml/badge.svg)
 
 #### Patching Socket
 When using HelloDog, net.Socket needs to be patched before anything else
