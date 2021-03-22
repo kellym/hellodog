@@ -1,39 +1,39 @@
-# socket-recorder
+# Hello, Dog!
 Record and log all communication over sockets.
 
-[![Build Status](https://travis-ci.org/kellym/socket-recorder.svg?branch=master)](https://travis-ci.org/kellym/socket-recorder)
+[![Build Status](https://travis-ci.org/kellym/hellodog.svg?branch=master)](https://travis-ci.org/kellym/hellodog)
 
 #### Patching Socket
-When using SocketRecorder, net.Socket needs to be patched before anything else
+When using HelloDog, net.Socket needs to be patched before anything else
 extends or creates a Socket in order for that to be recorded. Patching can be
 done by either calling `patch()` or by assigning `record`:
 
 ```javascript
-require('socket-recorder').patch();
+require('hellodog').patch();
 
-// automatically patches when retrieving the record method:
-const { record } = require('socket-recorder');
+// automatically patches when retrieving the track method:
+const { track } = require('hellodog');
 
 // net Socket can also be unpatched:
-require('socket-recorder').unpatch();
+require('hellodog').unpatch();
 ```
 
 #### Basic usage
 
 ```javascript
-const { record } = require('socket-recorder');
+const { track } = require('hellodog');
 
 // basic recording of process.stdout
-record((done) => {
-  console.log('Hello, world!');
-  console.log('Goodbye, world!');
+track((done) => {
+  console.log('Hello, dog!');
+  console.log('Goodbye, dog!');
   done();
 }, (log) => {
   // returns an array of sockets and their messages
 });
 
 // or use it as a Promise
-record((resolve, reject) => {
+track((resolve, reject) => {
   console.log('I promise!');
   resolve();
 }).then((log) => {
@@ -46,8 +46,8 @@ Response from `console.log`:
 [
   {
     events: [
-      { request: 'Hello, world!\n', created_at: 1489460314753.3242 },
-      { request: 'Goodbye, world!\n', created_at: 1489460314753.4758 }
+      { request: 'Hello, dog!\n', created_at: 1489460314753.3242 },
+      { request: 'Goodbye, dog!\n', created_at: 1489460314753.4758 }
     ],
     source: 'stdout'
   }
@@ -58,7 +58,7 @@ Response from `console.log`:
 #### More advanced responses
 
 ```javascript
-const { record } = require('socket-recorder');
+const { track } = require('hellodog');
 const express = require('express');
 
 // recording of an HTTP transaction
@@ -69,7 +69,7 @@ app.get('/', (req, res) => {
   res.end();
 });
 const server = app.listen(8888, () => {
-  record((done) => {
+  track((done) => {
     http.get('http://localhost:8888', done);
   }, (log) => {
     // returns an array of sockets and their messages,
@@ -100,3 +100,7 @@ Response from HTTP transaction:
   }
 ]
 ```
+
+### Why Dog?
+
+Dogs have both an excellent memory and excellent hearing. We need both.

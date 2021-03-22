@@ -1,19 +1,19 @@
 const tap            = require('tap'),
       net            = require('net'),
       originalSocket = net.Socket,
-      socketRecorder = require('../index');
+      HelloDog       = require('../index');
 
 tap.test('should not patch until patch() is called', (t) => {
   t.equal(net.Socket, originalSocket);
-  socketRecorder.patch();
+  HelloDog.patch();
   t.notEqual(net.Socket, originalSocket);
   t.end();
 });
 
 tap.test('should unpatch when unpatch() is called', (t) => {
-  socketRecorder.patch();
+  HelloDog.patch();
   t.notEqual(net.Socket, originalSocket);
-  socketRecorder.unpatch();
+  HelloDog.unpatch();
   t.equal(net.Socket, originalSocket);
   t.end();
 });

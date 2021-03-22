@@ -1,15 +1,15 @@
-const SocketRecorder = require('./lib/recorder');
+const Tracker = require('./lib/tracker');
 
 const singleton = function() {
-  if (!this.recorder) {
-    this.recorder = new SocketRecorder();
+  if (!this.tracker) {
+    this.tracker = new Tracker();
   }
-  return this.recorder;
+  return this.tracker;
 };
 
 module.exports = {
-  get record() {
-    return singleton().record;
+  get track() {
+    return singleton().track;
   },
   patch() {
     singleton().patch();
