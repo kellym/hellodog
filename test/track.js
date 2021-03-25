@@ -1,9 +1,10 @@
-const tap        = require('tap'),
-      { track }  = require('../index'),
-      express    = require('express'),
-      http       = require('http'),
-      https      = require('https'),
-      pem        = require('pem');
+const tap       = require('tap'),
+      { track } = require('../index'),
+      { spawn } = require('child_process'),
+      express   = require('express'),
+      http      = require('http'),
+      https     = require('https'),
+      pem       = require('pem');
 
 // we're using a self-signed cert for our tests.
 // important: must run tests with environment variable
@@ -79,6 +80,20 @@ tap.test('should track console.error', (t) => {
     t.equal(s.events.length, 1);
     t.ok(s.events[0].request);
     t.equal(s.source, 'stderr');
+    t.end();
+  });
+});
+
+tap.test('should track child processes', (t) => {
+  track((done) => {
+    const ls = spawn('echo',["Hello, world!"]);
+    ls.on('close', () => done());
+  }, (log) => {
+    const s = log[0];
+    t.ok(s.events);
+    t.equal(s.events.length, 1);
+    t.ok(s.events[0].response);
+    t.equal(s.source, 'pipe');
     t.end();
   });
 });
