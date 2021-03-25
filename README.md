@@ -17,16 +17,19 @@ What happens over sockets, you ask? Let's name a few:
 
 ![Build Status](https://github.com/kellym/hellodog/actions/workflows/test.yml/badge.svg)
 
+## Quick Start
+
 #### Patching Socket
 When using HelloDog, net.Socket needs to be patched before anything else
 extends or creates a Socket in order for that to be recorded. Patching can be
-done by either calling `patch()` or by assigning `record`:
+done by either calling `patch()` or by assigning `track`:
 
 ```javascript
-require('hellodog').patch();
-
 // automatically patches when retrieving the track method:
 const { track } = require('hellodog');
+
+// or more explicitly:
+require('hellodog').patch();
 
 // net Socket can also be unpatched:
 require('hellodog').unpatch();
@@ -53,6 +56,8 @@ track((resolve, reject) => {
 }).then((log) => {
 
 });
+
+const log = await track(fnCall);
 ```
 
 Response from `console.log`:
