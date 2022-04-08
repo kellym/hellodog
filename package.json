@@ -2,15 +2,20 @@
   "name": "hellodog",
   "version": "2.0.0",
   "description": "Record and log all socket transactions that occur for a specific period of time",
+  "gypfile": true,
   "main": "index.js",
   "scripts": {
-    "test": "NODE_NO_WARNINGS=1 tap test/*.js"
+    "build": "node-gyp rebuild",
+    "clean": "node-gyp clean",
+    "test": "NODE_NO_WARNINGS=1 node test/index.js",
+    "lint": "eslint --ext .js . --fix"
   },
   "homepage": "https://github.com/kellym/hellodog",
   "author": "Kelly Martin <kellymartinv@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "async-hook": "^1.7.1"
+    "async-hook": "^1.7.1",
+    "node-addon-api": "^4.3.0"
   },
   "repository": {
     "type": "git",
@@ -20,7 +25,14 @@
     "url": "https://github.com/kellym/hellodog/issues"
   },
   "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
     "express": "^4.17.1",
+    "jest": "^27.5.1",
+    "node-gyp": "^9.0.0",
     "pem": "^1.9.4",
     "tap": "^14.11.0"
   }

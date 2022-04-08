@@ -1,6 +1,6 @@
 const Tracker = require('./lib/tracker');
 
-const singleton = function() {
+const singleton = function () {
   if (!this.tracker) {
     this.tracker = new Tracker();
   }
@@ -8,13 +8,13 @@ const singleton = function() {
 };
 
 module.exports = {
-  get track() {
+  get track () {
     return singleton().track;
   },
-  patch() {
+  patch () {
     singleton().patch();
   },
-  unpatch() {
+  unpatch () {
     singleton().unpatch();
   }
 };
