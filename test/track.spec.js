@@ -23,64 +23,68 @@ const app = () => {
   return a;
 };
 
-test('should track http socket requests and responses', () => {
-  const server = app().listen(8888, '127.0.0.1', () => {
-    track(done => {
-      http.get('http://127.0.0.1:8888', done);
-    }, (res, log) => {
-      const s = log[0];
-      assert(s.events);
-      assert.equal(s.events.filter(e => e.request).length, 1);
-      assert.equal(s.events.filter(e => e.response).length, 1);
-      assert.equal(s.events.length, 2);
-      assert.equal(s.source, 'tcp');
-      server.close();
+test('should track http socket requests and responses', async () => {
+  return new Promise(resolve => {
+    const server = app().listen(8888, '127.0.0.1', () => {
+      track(done => {
+        http.get('http://127.0.0.1:8888', done);
+      }, (res, log) => {
+        const s = log[0];
+        assert(s.events);
+        assert.equal(s.events.filter(e => e.request).length, 1);
+        assert.equal(s.events.filter(e => e.response).length, 1);
+        assert.equal(s.events.length, 2);
+        assert.equal(s.source, 'tcp');
+        server.close();
+        resolve();
+      });
     });
   });
 });
 
-test('should track https socket requests and responses', () => {
-  pem.createCertificate({ days: 1, selfSigned: true }, (err, keys) => {
-    if (err) console.error(err);
-    const server = https.createServer({ key: keys.serviceKey, cert: keys.certificate }, app()).listen(8888, '127.0.0.1');
-    track(done => {
-      https.get('https://127.0.0.1:8888', done);
-    }, (res, log) => {
-      const s = log[0];
-      assert(s.events);
-      assert.equal(s.events.filter(e => e.request).length, 1);
-      assert.equal(s.events.filter(e => e.response).length, 1);
-      assert.equal(s.events.length, 2);
-      assert.equal(s.source, 'tcp');
-      server.close();
+test('should track https socket requests and responses', async () => {
+  return new Promise(resolve => {
+    pem.createCertificate({ days: 1, selfSigned: true }, (err, keys) => {
+      if (err) console.error(err);
+      const server = https.createServer({ key: keys.serviceKey, cert: keys.certificate }, app()).listen(8888, '127.0.0.1');
+      track(done => {
+        https.get('https://127.0.0.1:8888', done);
+      }, (res, log) => {
+        const s = log[0];
+        assert(s.events);
+        assert.equal(s.events.filter(e => e.request).length, 1);
+        assert.equal(s.events.filter(e => e.response).length, 1);
+        assert.equal(s.events.length, 2);
+        assert.equal(s.source, 'tcp');
+        server.close();
+        resolve();
+      });
     });
   });
 });
 
-test('should track console.log', () => {
-  track(done => {
+test('should track console.log', async () => {
+  const log = await track(done => {
     console.log('Hello, world!');
     done();
-  }, log => {
-    const s = log[0];
-    assert(s.events);
-    assert.equal(s.events.length, 1);
-    assert(s.events[0].request);
-    assert.equal(s.source, 'stdout');
   });
+  const s = log[0];
+  assert(s.events);
+  assert.equal(s.events.length, 1);
+  assert(s.events[0].request);
+  assert.equal(s.source, 'stdout');
 });
 
-test('should track console.error', () => {
-  track(done => {
+test('should track console.error', async () => {
+  const log = await track(done => {
     console.error('Hello, world!');
     done();
-  }, log => {
-    const s = log[0];
-    assert(s.events);
-    assert.equal(s.events.length, 1);
-    assert(s.events[0].request);
-    assert.equal(s.source, 'stderr');
   });
+  const s = log[0];
+  assert(s.events);
+  assert.equal(s.events.length, 1);
+  assert(s.events[0].request);
+  assert.equal(s.source, 'stderr');
 });
 
 test('should track child processes', async () => {
@@ -95,11 +99,11 @@ test('should track child processes', async () => {
   assert.equal(s.source, 'pipe');
 });
 
-test('should pass through done arguments to callback', () => {
-  track((done) => {
+test('should pass through done arguments to callback', async () => {
+  return track(done => {
     console.log('Hello, world!');
     done('foo', 'bar', 'baz');
-  }, (foo, bar, baz, log) => {
+  }).then(function([foo, bar, baz, log]) {
     assert.equal(foo, 'foo');
     assert.equal(bar, 'bar');
     assert.equal(baz, 'baz');
@@ -107,8 +111,8 @@ test('should pass through done arguments to callback', () => {
   });
 });
 
-test('should run as a promise and respect then/catch syntax', () => {
-  track((resolve, reject) => {
+test('should run as a promise and respect then/catch syntax', async () => {
+  return track((resolve, reject) => {
     console.log('Hello, world!');
     resolve();
   }).then(log => {
@@ -120,25 +124,4 @@ test('should run as a promise and respect then/catch syntax', () => {
       assert.equal(log[0].source, 'stdout');
     });
   });
-});
-
-test('logs socket errors', async () => {
-  let server, client;
-  try {
-  const log = await track(done => {
-    server = net.createServer(socket => {
-      socket.on('data', function() {
-        done();
-      });
-    }).listen(8888);
-    client = net.Socket();
-    client.connect(8888);
-    client.write('Hello, error world!');
-    client.end();
-  });
-  } catch(e) {
-    console.log(e);
-  }
-  console.log(log[0].connection && log[0].connection.err);
-  server.close();
 });
