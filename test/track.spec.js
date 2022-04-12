@@ -6,6 +6,7 @@ const express = require('express');
 const http = require('http');
 const https = require('https');
 const pem = require('pem');
+const net = require('net');
 
 // we're using a self-signed cert for our tests.
 // important: must run tests with environment variable
@@ -119,4 +120,25 @@ test('should run as a promise and respect then/catch syntax', () => {
       assert.equal(log[0].source, 'stdout');
     });
   });
+});
+
+test('logs socket errors', async () => {
+  let server, client;
+  try {
+  const log = await track(done => {
+    server = net.createServer(socket => {
+      socket.on('data', function() {
+        done();
+      });
+    }).listen(8888);
+    client = net.Socket();
+    client.connect(8888);
+    client.write('Hello, error world!');
+    client.end();
+  });
+  } catch(e) {
+    console.log(e);
+  }
+  console.log(log[0].connection && log[0].connection.err);
+  server.close();
 });

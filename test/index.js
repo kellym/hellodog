@@ -12,6 +12,9 @@ fs.readdir(__dirname, (err, files) => {
     if (file.indexOf('.spec') === -1) return;
     const out = spawnSync('node', [path.join(__dirname, file)]);
     console.log(out.output[1].toString());
+    if (out.output[2]) {
+      console.error(out.output[2].toString());
+    }
     if (out.status !== 0) status = out.status;
   });
 
