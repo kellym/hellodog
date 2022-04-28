@@ -1,20 +1,11 @@
-const Tracker = require('./lib/tracker');
-
-const singleton = function () {
-  if (!this.tracker) {
-    this.tracker = new Tracker();
-  }
-  return this.tracker;
-};
+const { patch, unpatch } = require('./lib/patch');
+const track = require('./lib/track');
 
 module.exports = {
   get track () {
-    return singleton().track;
+    patch();
+    return track;
   },
-  patch () {
-    singleton().patch();
-  },
-  unpatch () {
-    singleton().unpatch();
-  }
+  patch,
+  unpatch
 };
