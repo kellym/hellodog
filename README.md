@@ -1,9 +1,9 @@
 # Hello, Dog!
-There are libraries out there that record HTTP transactions. 
+There are libraries out there that record HTTP transactions.
 There's [yakbak](https://github.com/flickr/yakbak) and
 [sepia](https://github.com/LinkedInAttic/sepia), to name a couple.
 
-This library is different. This library records and logs _all_ communication over sockets, 
+This library is different. This library records and logs _all_ communication over sockets,
 not just sockets used for HTTP transactions.
 
 What happens over sockets, you ask? Let's name a few:
@@ -45,7 +45,7 @@ track((done) => {
   console.log('Hello, dog!');
   console.log('Goodbye, dog!');
   done();
-}, (log) => {
+}, (err, log) => {
   // returns an array of sockets and their messages
 });
 
@@ -90,7 +90,7 @@ app.get('/', (req, res) => {
 const server = app.listen(8888, () => {
   track((done) => {
     http.get('http://localhost:8888', done);
-  }, (log) => {
+  }, (err, log) => {
     // returns an array of sockets and their messages,
     // both request and response
     server.close();

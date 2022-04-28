@@ -14,7 +14,8 @@
   "author": "Kelly Martin <kellymartinv@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "node-addon-api": "^4.3.0"
+    "node-addon-api": "^4.3.0",
+    "uuid": "^8.3.2"
   },
   "repository": {
     "type": "git",
