@@ -1,6 +1,6 @@
 {
   "name": "hellodog",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Record and log all socket transactions that occur for a specific period of time",
   "gypfile": true,
   "main": "index.js",
