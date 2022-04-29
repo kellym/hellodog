@@ -19,14 +19,20 @@ const app = () => {
     res.write('Hello, world!');
     res.end();
   });
+  a.get('/hello', (req, res) => {
+    res.header('Content-length', 13);
+    res.write('Hello, world!');
+    res.end();
+  });
   return a;
 };
 
 test('tracks http socket requests and responses', () => {
   return new Promise(resolve => {
     const server = app().listen(0, '127.0.0.1', () => {
+      const { port } = server.address();
       track(done => {
-        http.get(`http://127.0.0.1:${server.address().port}`, done);
+        http.get(`http://127.0.0.1:${port}/hello`, done);
       }, (res, log) => {
         const s = log[0];
         assert.equal(log.length, 1);
@@ -34,6 +40,11 @@ test('tracks http socket requests and responses', () => {
         assert.equal(s.events.filter(e => e.request).length, 1);
         assert.equal(s.events.filter(e => e.response).length, 1);
         assert.equal(s.events.length, 2);
+        assert(s.connection);
+        assert.equal(s.connection.port, port);
+        assert.equal(s.connection.host, '127.0.0.1');
+        assert.equal(s.connection.path, '/hello');
+        assert.equal(s.connection.protocol, 'http:');
         assert.equal(s.source, 'tcp');
         server.close(resolve);
       });
