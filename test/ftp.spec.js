@@ -30,6 +30,6 @@ test('tracks ftp server', async done => {
     client.connect(options);
   });
   assert.equal(log.length, 2);
-  assert.equal(log[0].events.filter(e => e.request && e.request.indexOf(options.user) !== -1).length, 1);
-  assert.equal(log[0].events.filter(e => e.request && e.request.indexOf(options.password) !== -1).length, 1);
+  assert.equal(log[0].events.filter(e => e.type === 'request' && e.data.indexOf(options.user) !== -1).length, 1);
+  assert.equal(log[0].events.filter(e => e.type === 'request' && e.data.indexOf(options.password) !== -1).length, 1);
 });

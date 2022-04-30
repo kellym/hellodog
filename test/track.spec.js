@@ -37,9 +37,10 @@ test('tracks http socket requests and responses', () => {
         const s = log[0];
         assert.equal(log.length, 1);
         assert(s.events);
-        assert.equal(s.events.filter(e => e.request).length, 1);
-        assert.equal(s.events.filter(e => e.response).length, 1);
-        assert.equal(s.events.length, 2);
+        assert.equal(s.events.filter(e => e.type === 'connect').length, 1);
+        assert.equal(s.events.filter(e => e.type === 'request').length, 1);
+        assert.equal(s.events.filter(e => e.type === 'response').length, 1);
+        assert.equal(s.events.length, 3);
         assert(s.connection);
         assert.equal(s.connection.port, port);
         assert.equal(s.connection.host, '127.0.0.1');
@@ -62,9 +63,9 @@ test('tracks only what is created inside tracking loop', () => {
       if (err) return reject(err);
       const s = log[0];
       assert.equal(log.length, 1);
-      assert.equal(s.events.filter(e => e.request).length, 1);
+      assert.equal(s.events.filter(e => e.type === 'request').length, 1);
       assert.equal(s.events.length, 1);
-      assert(s.events[0].request.indexOf('World') !== -1);
+      assert(s.events[0].data.indexOf('World') !== -1);
       assert.equal(s.source, 'stdout');
       resolve();
     });
@@ -135,11 +136,13 @@ test('tracks https socket requests and responses', async () => {
         }, (res, log) => {
           const s = log[0];
           assert(s.events);
-          assert.equal(s.events.length, 2);
-          assert.equal(s.events.filter(e => e.request).length, 1);
-          const responses = s.events.filter(e => e.response);
+          assert.equal(s.events.length, 5);
+          assert.equal(s.events.filter(e => e.type === 'request').length, 1);
+          assert.equal(s.events.filter(e => e.type === 'connect').length, 1);
+          assert.equal(s.events.filter(e => e.type === 'secureConnect').length, 1);
+          const responses = s.events.filter(e => e.type === 'response');
           assert.equal(responses.length, 1);
-          assert(responses[0].response.indexOf('200 OK') !== -1);
+          assert(responses[0].data.indexOf('200 OK') !== -1);
           assert.equal(s.source, 'tcp');
           server.close(resolve);
         });
@@ -169,7 +172,7 @@ test('tracks console.log', async () => {
   const s = log[0];
   assert(s.events);
   assert.equal(s.events.length, 1);
-  assert(s.events[0].request);
+  assert(s.events[0].type === 'request');
   assert.equal(s.source, 'stdout');
 });
 
@@ -181,7 +184,7 @@ test('tracks console.error', async () => {
   const s = log[0];
   assert(s.events);
   assert.equal(s.events.length, 1);
-  assert(s.events[0].request);
+  assert(s.events[0].type === 'request');
   assert.equal(s.source, 'stderr');
 });
 
@@ -204,7 +207,7 @@ test('does not track after exiting track', async () => {
   const s = log[0];
   assert(s.events);
   assert.equal(s.events.length, 1);
-  assert(s.events[0].request);
+  assert(s.events[0].type === 'request');
   assert.equal(s.source, 'stdout');
 });
 
@@ -216,7 +219,7 @@ test('tracks child processes', async () => {
   const s = log[0];
   assert(s.events);
   assert.equal(s.events.length, 1);
-  assert(s.events[0].response);
+  assert(s.events[0].type === 'response');
   assert.equal(s.source, 'pipe');
 });
 
@@ -257,7 +260,7 @@ test('handles using async await syntax', async () => {
   const s = log[0];
   assert(s.events);
   assert.equal(s.events.length, 1);
-  assert(s.events[0].request);
+  assert(s.events[0].type === 'request');
   assert.equal(s.source, 'stdout');
 });
 
