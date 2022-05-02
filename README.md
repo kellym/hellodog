@@ -65,8 +65,8 @@ Response from `console.log`:
 [
   {
     events: [
-      { request: 'Hello, dog!\n', created_at: 1489460314753.3242 },
-      { request: 'Goodbye, dog!\n', created_at: 1489460314753.4758 }
+      { type: 'write', data: 'Hello, dog!\n', created_at: 1489460314753.3242 },
+      { type: 'write', data: 'Goodbye, dog!\n', created_at: 1489460314753.4758 }
     ],
     source: 'stdout'
   }
@@ -103,11 +103,17 @@ Response from HTTP transaction:
   {
     events: [
       {
-        request: 'GET / HTTP/1.1\r\nHost: localhost:8888\r\nConnection: close\r\n\r\n',
+        type: 'connect',
+        created_at: 1489460545610.2593
+      },
+      {
+        type: 'write',
+        data: 'GET / HTTP/1.1\r\nHost: localhost:8888\r\nConnection: close\r\n\r\n',
         created_at: 1489460545620.1575
       },
       {
-        response: 'HTTP/1.1 200 OK\r\nX-Powered-By: Express\r\nContent-length: 13\r\nDate: Tue, 14 Mar 2017 03:02:25 GMT\r\nConnection: close\r\n\r\nHello, world!',
+        type: 'read',
+        data: 'HTTP/1.1 200 OK\r\nX-Powered-By: Express\r\nContent-length: 13\r\nDate: Tue, 14 Mar 2017 03:02:25 GMT\r\nConnection: close\r\n\r\nHello, world!',
         created_at: 1489460545628.0654
       }
     ],
